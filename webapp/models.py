@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 
 class Location(models.Model):
     primary = models.TextField()
-    secondary = models.TextField()
+    secondary = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.primary} || {self.secondary}"
+        return f"{self.primary}"
 
 
 class Branch(models.Model):
@@ -33,8 +33,8 @@ class Role(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=12)
-    email = models.EmailField()
+    phone = models.CharField(max_length=12, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -87,16 +87,16 @@ class Member(models.Model):
 class Contact(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     mobile_1 = models.CharField(max_length=12)
-    mobile_2 = models.CharField(max_length=12)
-    work = models.CharField(max_length=12)
+    mobile_2 = models.CharField(max_length=12, null=True, blank=True)
+    work = models.CharField(max_length=12, null=True, blank=True)
     ice_1 = models.CharField(max_length=12)
-    ice_2 = models.CharField(max_length=12)
-    email = models.EmailField()
+    ice_2 = models.CharField(max_length=12, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.mobile_1}, {self.work}, {self.ice_1}, {self.email}"
+        return f"{self.member.first_name} {self.member.last_name}"
 
 
 class UserProfile(models.Model):
@@ -151,7 +151,7 @@ class GroupMembershipRole(models.Model):
     group_role = models.ForeignKey(GroupRole, on_delete=models.CASCADE)
     date_assigned = models.DateField()
     date_expired = models.DateField()
-    remarks = models.TextField()
+    remarks = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
